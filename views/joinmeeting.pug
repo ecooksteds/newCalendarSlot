@@ -1,0 +1,22 @@
+extends layout
+append links 
+    li(style="float: right;")
+        a(href="/loggout") Loggout 
+block content
+    h2.h2-style Join Meeting Dashboard
+    p.set-style="You have " + total +" Meeting Invitation(s)" 
+        fieldset.back-color
+            legend Meeting Invitaion List
+            table.set-padding.table-style 
+                thead
+                    tr
+                        th.th-style From
+                        td.td-style Action
+                each val, index in meetingList
+                    tr 
+                        th.th-style=val.invitationfrom
+                        td.td-style 
+                            a.button-style(href=`/acceptmeeting/${val.meetingID}`) Accept
+               
+
+

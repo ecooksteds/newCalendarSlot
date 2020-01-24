@@ -1,0 +1,37 @@
+extends layout
+append links 
+    li(style="float: right;")
+        a(href="/loggout") Loggout 
+block content
+    h2.h2-style Meeting Slot Page
+    form#form-data-id(onsubmit="addSlotFN(event)")
+        fieldset.back-color
+            legend
+            table.set-padding 
+                tr 
+                    th MeetingID: 
+                    td 
+                        input(type="text" required value=id readonly id="meetingID" name="meetingID")
+                tr
+                    th Day: 
+                    td 
+                        input(type="text" readonly required id="day" name="day")
+                tr 
+                    th Date: 
+                    td 
+                        input(type="date" required onchange="onChageDate(event)" id="date" name="date")  
+                tr
+                    th Time Start: 
+                    td 
+                        input(type="text" required id="timeStart" name="day")
+                tr
+                    th Time End: 
+                    td 
+                        input(type="text" required id="timeEnd" name="day")                     
+                tr 
+                    td
+                    td
+                        input(type="submit" value="Add Slot")
+                        button.back( type="button" onclick="checkBestSlot(event)") Check Best Slot
+                div#table.allocated
+            h3#mess Above Slots are Suitable for Meeting

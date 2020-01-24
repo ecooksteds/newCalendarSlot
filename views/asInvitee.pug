@@ -1,0 +1,25 @@
+extends layout
+append links 
+    li(style="float: right;")
+        a(href="/loggout") Loggout 
+block content
+    h2.h2-style Meeting List Dashboard As Invitee
+    p.set-style="You have " + total +" Meeting Invitation(s)" 
+    form(method="post" id="" onsubmit="createJoin(event)")
+        fieldset.back-color
+            legend You have Accepted following Meeting(s)
+            table.set-padding.table-style 
+                thead
+                    tr
+                        th.th-style From
+                        th.td-style Date
+                        th.th-style Day
+                        th.td-style Time Start
+                        th.td-style Time End
+                each val, index in meetingList
+                    tr 
+                        td.th-style=val.invitationfrom
+                        td.td-style=val.date
+                        td.td-style=val.day
+                        td.td-style=val.timeStart
+                        td.td-style=val.timeEnd

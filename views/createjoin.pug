@@ -1,0 +1,36 @@
+extends layout
+append links 
+    li(style="float: right;")
+        a(href="/loggout") Loggout 
+block content
+    h2.h2-style Meeting Dashboard  
+    form(method="post" action='/createjoin')
+        fieldset.back-color
+            legend Meeting Information
+            table.set-padding 
+                tr
+                    th Meeting ID: 
+                    td 
+                        input(type="text" readonly name="meetingId")
+                tr 
+                    th Invitee(s): 
+                    td 
+                        input(type="text" name="invitees")
+                tr
+                    th Length: 
+                    td 
+                        input(type="number" name="meetingLength")
+                tr 
+                    th Duration: 
+                    td 
+                        input(type="number" name="duration")  
+                tr
+                    th Frequency: 
+                    td 
+                        input(type="number" name="frequency")             
+                tr 
+                    td
+                    td
+                        input(type="submit" value="Submit")
+
+
