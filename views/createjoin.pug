@@ -34,9 +34,17 @@ block content
                         input(type="submit" value="Submit")
     script.
         let inviteesIpt = document.querySelector("[name='invitees']");
+        inviteesIpt.addEventListener('focusout', (e) => {
+            e.target.value = e.target.value.replace(/,$/, "");
+        })
         inviteesIpt.addEventListener('keyup', (e)=>{
-            if(/\ /.test(e.target.value)){
-                e.target.value = e.target.value.replace(" ", "");
-                alert("You can't add spaces in Invitee(s) input")
+            let iptVal = e.target.value;
+            if(/\ /.test(iptVal)){
+                e.target.value = iptVal.replace(/\ /, "");
+                alert("you can't add spaces in Invitee(s) input")
+            }
+            if(/,{2,}/.test(iptVal)){
+                e.target.value = iptVal.replace(/,{2,}/, ",");
+                alert("you can not add empty Invitee")
             }
         })
