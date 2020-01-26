@@ -32,5 +32,11 @@ block content
                     td
                     td
                         input(type="submit" value="Submit")
-
-
+    script.
+        let inviteesIpt = document.querySelector("[name='invitees']");
+        inviteesIpt.addEventListener('keyup', (e)=>{
+            if(/\ /.test(e.target.value)){
+                e.target.value = e.target.value.replace(" ", "");
+                alert("You can't add spaces in Invitee(s) input")
+            }
+        })
