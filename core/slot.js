@@ -6,7 +6,6 @@ function Slot() {}
 Slot.prototype = {
 	// to save slot data in database
 	create: function(body, callback) {
-		console.log(body);
 		let sql = `INSERT INTO slot SET ?`;
 		pool.query(sql, body, (err, result) => {
 			if (err) {

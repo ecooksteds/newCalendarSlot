@@ -171,3 +171,22 @@ function acceptSlotFN(data) {
 			optionalSlot = [];
 		});
 }
+document.addEventListener("DOMContentLoaded", function(event) {
+	// Your code to run since DOM is loaded and ready
+	document.querySelectorAll("[data-delete-meeting-id]").forEach(btn => {
+		btn.addEventListener("click", e => {
+			let meetingId = e.target.getAttribute("data-delete-meeting-id");
+			axios
+				.post("/api/meeting/delete", {
+					meetingID: meetingId
+				})
+				.then(response => {
+					alert(response.data.message);
+					window.location.reload();
+				})
+				.catch(err => {
+					alert(err.response.data.message);
+				});
+		});
+	});
+});

@@ -16,6 +16,7 @@ block content
                     th.td-style Time Start
                     th.td-style Time End
                     th.td-style Status
+                    th.td-style
             each val, index in meetingList
                 tr 
                     td.th-style=val.meetingID
@@ -26,3 +27,5 @@ block content
                     td.td-style=val.slot ? val.slot.timeStart : '-'
                     td.td-style=val.slot ? val.slot.timeEnd : '-'
                     td.td-style=val.slot ? "Accepted" : "Pending"
+                    td.td-style
+                        button(data-delete-meeting-id=val.meetingID) Delete

@@ -11,6 +11,7 @@ var LocalStrategy = require("passport-local").Strategy;
 var user = new User();
 var join = new Join();
 var slot = new Slot();
+const Meeting = require("./../core/meeting");
 
 // Passport module authentication
 passport.use(
@@ -337,6 +338,24 @@ router.get("/loggout", (req, res, next) => {
 	// destroy the session and redirect the user to the index page.
 	req.logout();
 	res.redirect("/");
+});
+
+router.post("/api/meeting/delete", (req, res) => {
+	let user = req.user;
+	let meetingId = req.body.meetingID;
+	if (user && meetingId) {
+		Meeting.delete(meetingId, user)
+			.then(result => {
+				res.send({
+					message: `meeting and its slot(s) has been deleted. deleted ${result.affectedRows} items`
+				});
+			})
+			.catch(err => {
+				res.status(400).send({
+					message: "SQL error. meeting could not be deleted."
+				});
+			});
+	}
 });
 
 module.exports = router;
