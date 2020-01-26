@@ -1,4 +1,5 @@
 var express = require("express");
+const moment = require("moment");
 var User = require("../core/user");
 var router = express.Router();
 var session = require("express-session");
@@ -245,32 +246,32 @@ router.get("/acceptmeeting/:id", (req, res, next) => {
 		res.redirect("/");
 	}
 });
-router.post("/setmeeting", (req, res, next) => {
+router.post("/api/setMeeting", (req, res) => {
 	// Here An Admin will set Slot for Meeting
 	let user = req.user;
 	if (user) {
 		let userInput = {
 			meetingID: req.body.meetingID,
 			day: req.body.day,
-			date: req.body.date,
+			date: moment(req.body.date).format("YYYY-MM-DD"),
 			timeStart: req.body.timeStart,
 			timeEnd: req.body.timeEnd,
 			userID: user.id
 		};
 		// Here is Database Query to Save Meeting Data
-		slot.create(res, userInput, function(lastId) {
+		slot.create(userInput, (err, lastId) => {
 			if (lastId) {
 				res.send({
 					save: true,
 					message: "Your Slot Data Has Been Saved"
 				});
+			} else if (err) {
+				res.status(400).send(`something went wrong; code:${err.code}`);
 			} else {
-				console.log("Error creating a new user ...");
-				res.send("Something went Wrong");
+				res.status(400).send("something went wrong");
 			}
+			return;
 		});
-	} else {
-		res.redirect("/");
 	}
 });
 // Here Best Slot for Meeting is Checking for Meeting

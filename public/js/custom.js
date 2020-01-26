@@ -28,12 +28,17 @@ function setMeeting(e) {
 	};
 	// sending data to server
 	axios
-		.post("/setmeeting", data)
-		.then(data => {
-			alert("A New Slot Has Been Added");
+		.post("/api/setMeeting", data)
+		.then(res => {
+			date.value = "";
+			day.value = "";
+			timeStart.value = "";
+			timeEnd.value = "";
+			alert(res.data.message);
+			window.location.href = "/home";
 		})
 		.catch(err => {
-			alert(err);
+			alert(err.response.data);
 		});
 }
 

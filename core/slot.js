@@ -5,14 +5,15 @@ function Slot() {}
 
 Slot.prototype = {
 	// to save slot data in database
-	create: function(res, body, callback) {
+	create: function(body, callback) {
+		console.log(body);
 		let sql = `INSERT INTO slot SET ?`;
-		pool.query(sql, body, function(err, result) {
+		pool.query(sql, body, (err, result) => {
 			if (err) {
-				res.send(err);
+				callback(err, null);
+				return;
 			}
-
-			callback(result);
+			callback(null, result);
 		});
 	},
 	// to check The best slot for meeting
