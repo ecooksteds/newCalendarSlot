@@ -4,24 +4,25 @@ append links
         a(href="/loggout") Loggout 
 block content
     h2.h2-style= fullname +" as Admin" 
-    p Following Canidates Has Accepted Meeting Invitation 
-        fieldset.back-color
-            table.set-padding.table-style 
-                thead
-                    tr
-                        th.th-style Meeting ID
-                        th.td-style Full Name
-                        th.th-style User Name
-                        th.td-style Date
-                        th.td-style Day
-                        th.td-style Time Start
-                        th.td-style Time End
-                each val, index in meetingList
-                    tr 
-                        td.th-style=val.meetingID
-                        td.td-style=val.fullname
-                        td.td-style=val.username
-                        td.td-style=val.date
-                        td.td-style=val.day
-                        td.td-style=val.timeStart
-                        td.td-style=val.timeEnd
+    fieldset.back-color
+        table.set-padding.table-style 
+            thead
+                tr
+                    th.th-style Meeting ID
+                    th.td-style Full Name
+                    th.th-style User Name
+                    th.td-style Date
+                    th.td-style Day
+                    th.td-style Time Start
+                    th.td-style Time End
+                    th.td-style Status
+            each val, index in meetingList
+                tr 
+                    td.th-style=val.meetingID
+                    td.td-style=val.slot ? val.slot.fullname : '-'
+                    td.td-style=val.slot ? val.slot.username: '-'
+                    td.td-style=val.slot ? val.slot.date: '-'
+                    td.td-style=val.slot ? val.slot.day : '-'
+                    td.td-style=val.slot ? val.slot.timeStart : '-'
+                    td.td-style=val.slot ? val.slot.timeEnd : '-'
+                    td.td-style=val.slot ? "Accepted" : "Pending"
