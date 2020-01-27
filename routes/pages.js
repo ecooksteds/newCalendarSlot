@@ -104,6 +104,17 @@ router.post("/createjoin", (req, res) => {
 		res.redirect("/");
 	}
 });
+router.get("/slot/decline/:slotId", (req, res) => {
+	let user = req.user;
+	let slotId = req.params.slotId;
+	if (user) {
+		Slot.decline(slotId, user).then(result => {
+			res.redirect("/joinmeeting");
+		});
+	} else {
+		res.redirect("/");
+	}
+});
 router.get("/slot/update/:slotId", (req, res) => {
 	let user = req.user;
 	let slotId = req.params.slotId;
@@ -210,10 +221,10 @@ router.get("/joinmeeting", (req, res, next) => {
 	// When user visit this path List Meeting request will be shown
 	let user = req.user;
 	if (user) {
-		join.find(res, user, function(result) {
+		User.pendingSlots(user).then(slots => {
 			res.render("joinmeeting", {
-				total: result.length,
-				meetingList: result
+				total: slots.length,
+				slots
 			});
 		});
 	} else {

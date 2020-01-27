@@ -70,5 +70,16 @@ Slot.update = (data, user) => {
 			});
 	});
 };
+Slot.decline = (slotId, user) => {
+	return Slot.update(
+		{
+			slotId,
+			slot: {
+				status: "DECLINED"
+			}
+		},
+		user
+	);
+};
 
 module.exports = Slot;

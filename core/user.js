@@ -107,6 +107,23 @@ User.addMeetingSlots = (meeting, user) => {
 		});
 	});
 };
+User.pendingSlots = user => {
+	return new Promise((resolve, reject) => {
+		pool.query(
+			`select slot.*,meeting.invitationfrom from slot join meeting on meeting.meetingID=slot.meetingID where slot.userID='${user.id}' and slot.status='PENDING'`
+		)
+			.then(userSlots => {
+				userSlots = userSlots.map(s => {
+					s.date = new Date(s.date).toLocaleDateString();
+					return s;
+				});
+				resolve(userSlots);
+			})
+			.catch(err => {
+				reject(err);
+			});
+	});
+};
 User.respondedSlots = user => {
 	return new Promise((resolve, reject) => {
 		pool.query(
