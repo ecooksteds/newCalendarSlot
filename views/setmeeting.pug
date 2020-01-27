@@ -4,14 +4,14 @@ append links
         a(href="/loggout") Loggout 
 block content
     h2.h2-style Meeting Slot Page
-    form#form-data-id(onsubmit="setMeeting(event)")
+    form#form-data-id(onsubmit="updateSlot(event)")
         fieldset.back-color
             legend
             table.set-padding 
                 tr 
-                    th MeetingID: 
+                    th Slot Id: 
                     td 
-                        input(type="text" required value=id readonly id="meetingID" name="meetingID")
+                        input(type="text" required value=slotId readonly id="slotId" name="slotId")
                 tr
                     th Day: 
                     td 

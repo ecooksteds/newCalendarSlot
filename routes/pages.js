@@ -92,17 +92,55 @@ router.post("/createjoin", (req, res) => {
 			frequency: req.body.frequency,
 			invitationfrom: user.fullname
 		};
-		join.create(userInput, function(lastId) {
-			if (lastId) {
-				res.send(
-					`<script>alert("Your Meeting Data Has Been Saved"); window.location.pathname="/setmeeting/${lastId.toString()}"</script>`
-				);
-			} else {
-				res.send("Something went wrong");
-			}
+		Meeting.create(userInput, user)
+			.then(({ adminSlotId }) => {
+				res.redirect("/slot/update/" + adminSlotId);
+			})
+			.catch(err => {
+				console.log(err);
+				res.send("somthing went wrong");
+			});
+	} else {
+		res.redirect("/");
+	}
+});
+router.get("/slot/update/:slotId", (req, res) => {
+	let user = req.user;
+	let slotId = req.params.slotId;
+	if (user) {
+		res.render("setmeeting", {
+			slotId: slotId
 		});
 	} else {
 		res.redirect("/");
+	}
+});
+router.post("/slot/update/:slotId", (req, res) => {
+	let user = req.user;
+	if (user) {
+		let slotId = req.params.slotId;
+
+		// fix date if any
+		req.body.date = req.body.date
+			? moment(req.body.date).format("YYYY-MM-DD")
+			: req.body.date;
+
+		let data = {
+			slotId,
+			slot: req.body
+		};
+
+		// Here is Database Query to Save Meeting Data
+		Slot.update(data, user)
+			.then(result => {
+				res.send({
+					save: true,
+					message: "your Slot has been saved"
+				});
+			})
+			.catch(err => {
+				res.status(400).send(`something went wrong; code:${err.code}`);
+			});
 	}
 });
 
@@ -256,6 +294,8 @@ router.get("/acceptmeeting/:id", (req, res, next) => {
 		res.redirect("/");
 	}
 });
+
+// Deprecated
 router.post("/api/setMeeting", (req, res) => {
 	// Here An Admin will set Slot for Meeting
 	let user = req.user;

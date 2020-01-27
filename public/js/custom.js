@@ -14,26 +14,20 @@ function onChageDate(e) {
 	document.getElementById("day").value = weekday[dt.getDay()];
 }
 var optionalSlot = [];
-function setMeeting(e) {
+function updateSlot(e) {
 	e.preventDefault();
-	var dateobj = new Date(date.value);
-	var B = dateobj.toISOString();
 	// filtering data here
 	var data = {
-		meetingID: meetingID.value,
 		day: day.value.replace(/ /g, "").toLowerCase(),
-		date: B,
+		date: new Date(date.value),
 		timeStart: timeStart.value.replace(/ /g, ""),
-		timeEnd: timeEnd.value.replace(/ /g, "")
+		timeEnd: timeEnd.value.replace(/ /g, ""),
+		status: "COMPLETED"
 	};
 	// sending data to server
 	axios
-		.post("/api/setMeeting", data)
+		.post("/slot/update/" + slotId.value, data)
 		.then(res => {
-			date.value = "";
-			day.value = "";
-			timeStart.value = "";
-			timeEnd.value = "";
 			alert(res.data.message);
 			window.location.href = "/home";
 		})

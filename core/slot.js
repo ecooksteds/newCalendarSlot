@@ -46,5 +46,29 @@ Slot.prototype = {
 		);
 	}
 };
+Slot.create = body => {
+	return new Promise((res, rej) => {
+		let sql = `INSERT INTO slot SET ?`;
+		pool.query(sql, body)
+			.then(result => {
+				res(result);
+			})
+			.catch(err => {
+				rej(err);
+			});
+	});
+};
+Slot.update = (data, user) => {
+	return new Promise((res, rej) => {
+		let sql = `UPDATE slot SET ? WHERE slotId='${data.slotId}' AND userID='${user.id}'`;
+		pool.query(sql, data.slot)
+			.then(result => {
+				res(result);
+			})
+			.catch(err => {
+				rej(err);
+			});
+	});
+};
 
 module.exports = Slot;

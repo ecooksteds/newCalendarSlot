@@ -106,5 +106,20 @@ User.addMeetingSlots = (meeting, user) => {
 		});
 	});
 };
+User.getByUsername = username => {
+	return new Promise((resolve, reject) => {
+		pool.query(`select * from users where username='${username}'`)
+			.then(result => {
+				if (result.length) {
+					resolve(result[0]);
+					return;
+				}
+				resolve(null);
+			})
+			.catch(err => {
+				reject(err);
+			});
+	});
+};
 
 module.exports = User;
