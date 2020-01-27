@@ -10,24 +10,18 @@ block content
                 tr
                     th.th-style Meeting ID
                     th.th-style Invitees
-                    th.td-style Full Name
-                    th.th-style User Name
-                    th.td-style Date
-                    th.td-style Day
-                    th.td-style Time Start
-                    th.td-style Time End
+                    th.th-style Meeting Length
+                    th.th-style Meeting Duration
+                    th.th-style Meeting Frequency
                     th.td-style Status
                     th.td-style
-            each val, index in meetingList
+            each val, index in meetings
                 tr 
                     td.th-style=val.meetingID
                     td.td-style=val.invitees
-                    td.td-style=val.adminSlot ? val.adminSlot.fullname : '-'
-                    td.td-style=val.adminSlot ? val.adminSlot.username: '-'
-                    td.td-style=val.adminSlot ? val.adminSlot.date: '-'
-                    td.td-style=val.adminSlot ? val.adminSlot.day : '-'
-                    td.td-style=val.adminSlot ? val.adminSlot.timeStart : '-'
-                    td.td-style=val.adminSlot ? val.adminSlot.timeEnd : '-'
-                    td.td-style=val.isCompleted ? "Completed" : "Pending"
+                    td.td-style=val.meetingLength 
+                    td.td-style=val.duration 
+                    td.td-style=val.frequency
+                    td.td-style=val.slotsStatus
                     td.td-style
                         button(data-delete-meeting-id=val.meetingID) Delete

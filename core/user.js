@@ -91,6 +91,7 @@ User.meetings = user => {
 		});
 	});
 };
+// deprecated
 User.addMeetingSlots = (meeting, user) => {
 	return new Promise((resolve, reject) => {
 		pool.query(
@@ -104,6 +105,45 @@ User.addMeetingSlots = (meeting, user) => {
 			meeting.slots = mSlots;
 			resolve(meeting);
 		});
+	});
+};
+User.respondedSlots = user => {
+	return new Promise((resolve, reject) => {
+		pool.query(
+			`select slot.*,meeting.invitationfrom from slot join meeting on meeting.meetingID=slot.meetingID where slot.userID='${user.id}' and slot.status!='PENDING'`
+		)
+			.then(userSlots => {
+				userSlots = userSlots.map(s => {
+					if (s.userID == user.id) {
+						s.isAdmin = true;
+					}
+					s.date = new Date(s.date).toLocaleDateString();
+					return s;
+				});
+				resolve(userSlots);
+			})
+			.catch(err => {
+				reject(err);
+			});
+	});
+};
+User.getSlotsStatus = (meeting, user) => {
+	return new Promise((resolve, reject) => {
+		pool.query(
+			`select status from slot where meetingID='${meeting.meetingID}'`
+		)
+			.then(result => {
+				let status = "Completed";
+				result.forEach(slot => {
+					if (slot.status != "COMPLETED" && slot.status != "DECLINED")
+						status = "Pending";
+				});
+				meeting.slotsStatus = status;
+				resolve(meeting);
+			})
+			.catch(err => {
+				reject(err);
+			});
 	});
 };
 User.getByUsername = username => {

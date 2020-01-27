@@ -11,15 +11,19 @@ block content
             table.set-padding.table-style 
                 thead
                     tr
+                        th.th-style Meeting Id
                         th.th-style From
                         th.td-style Date
                         th.th-style Day
                         th.td-style Time Start
                         th.td-style Time End
-                each val, index in meetingList
+                        th.td-style Status
+                each val, index in slots
                     tr 
-                        td.th-style=val.invitationfrom
+                        td.th-style=val.meetingID
+                        td.th-style=val.isAdmin ? 'Yourself' : val.invitationfrom
                         td.td-style=val.date
                         td.td-style=val.day
                         td.td-style=val.timeStart
                         td.td-style=val.timeEnd
+                        td.td-style=val.status

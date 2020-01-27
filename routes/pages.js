@@ -220,44 +220,35 @@ router.get("/joinmeeting", (req, res, next) => {
 		res.redirect("/");
 	}
 });
-router.get("/as-invitee", (req, res, next) => {
+router.get("/as-invitee", (req, res) => {
 	// Here List of Meeting As invitee will shown with Meeting List record
 	let user = req.user;
 	if (user) {
-		join.accptMeetingList(res, user, function(result) {
+		User.respondedSlots(user).then(slots => {
 			res.render("asInvitee", {
-				total: result.length,
-				meetingList: result
+				total: slots.length,
+				slots: slots
 			});
 		});
 	} else {
 		res.redirect("/");
 	}
 });
-router.get("/as-admin", (req, res, next) => {
+router.get("/as-admin", (req, res) => {
 	// If a user is a admin of meeting, then list meeting invitee of who has
 	// accepted meeting request will be shown here
 	let user = req.user;
 	if (user) {
 		User.meetings(user).then(allMeetings => {
-			let meetings = allMeetings.map(meeting =>
-				User.addMeetingSlots(meeting, user)
+			meetingsWithSlotsStatus = allMeetings.map(meeting =>
+				User.getSlotsStatus(meeting, user)
 			);
-			Promise.all(meetings)
-				.then(meetingsWithSlots => {
-					meetingsWithSlots = meetingsWithSlots.map(m => {
-						m.isCompleted =
-							m.slots.length == m.invitees.split(",").length + 1;
-						return m;
-					});
-					res.render("asAdmin", {
-						fullname: user.fullname,
-						meetingList: meetingsWithSlots
-					});
-				})
-				.catch(err => {
-					console.log(err);
+			Promise.all(meetingsWithSlotsStatus).then(meetings => {
+				res.render("asAdmin", {
+					fullname: user.fullname,
+					meetings: meetings
 				});
+			});
 		});
 	} else {
 		res.redirect("/");
