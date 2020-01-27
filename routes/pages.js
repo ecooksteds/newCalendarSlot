@@ -203,14 +203,23 @@ router.get("/as-admin", (req, res, next) => {
 	if (user) {
 		User.meetings(user).then(allMeetings => {
 			let meetings = allMeetings.map(meeting =>
-				User.addMeetingSlot(meeting)
+				User.addMeetingSlots(meeting, user)
 			);
-			Promise.all(meetings).then(meetingsWithSlots => {
-				res.render("asAdmin", {
-					fullname: user.fullname,
-					meetingList: meetingsWithSlots
+			Promise.all(meetings)
+				.then(meetingsWithSlots => {
+					meetingsWithSlots = meetingsWithSlots.map(m => {
+						m.isCompleted =
+							m.slots.length == m.invitees.split(",").length + 1;
+						return m;
+					});
+					res.render("asAdmin", {
+						fullname: user.fullname,
+						meetingList: meetingsWithSlots
+					});
+				})
+				.catch(err => {
+					console.log(err);
 				});
-			});
 		});
 	} else {
 		res.redirect("/");

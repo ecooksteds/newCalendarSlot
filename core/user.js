@@ -91,16 +91,17 @@ User.meetings = user => {
 		});
 	});
 };
-User.addMeetingSlot = meeting => {
+User.addMeetingSlots = (meeting, user) => {
 	return new Promise((resolve, reject) => {
 		pool.query(
-			`select * from slot join users on slot.userID=users.id where meetingID='${meeting.meetingID}'`
+			`select * from slot join users on slot.userID=users.id where slot.meetingID='${meeting.meetingID}'`
 		).then(mSlots => {
-			let slot = mSlots[0];
-			if (slot) {
-				slot.date = new Date(slot.date).toLocaleDateString();
-				meeting.slot = slot;
-			}
+			mSlots = mSlots.map(s => {
+				s.date = new Date(s.date).toLocaleDateString();
+				if (s.userID == user.id) meeting.adminSlot = s;
+				return s;
+			});
+			meeting.slots = mSlots;
 			resolve(meeting);
 		});
 	});

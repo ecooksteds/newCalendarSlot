@@ -9,6 +9,7 @@ block content
             thead
                 tr
                     th.th-style Meeting ID
+                    th.th-style Invitees
                     th.td-style Full Name
                     th.th-style User Name
                     th.td-style Date
@@ -20,12 +21,13 @@ block content
             each val, index in meetingList
                 tr 
                     td.th-style=val.meetingID
-                    td.td-style=val.slot ? val.slot.fullname : '-'
-                    td.td-style=val.slot ? val.slot.username: '-'
-                    td.td-style=val.slot ? val.slot.date: '-'
-                    td.td-style=val.slot ? val.slot.day : '-'
-                    td.td-style=val.slot ? val.slot.timeStart : '-'
-                    td.td-style=val.slot ? val.slot.timeEnd : '-'
-                    td.td-style=val.slot ? "Accepted" : "Pending"
+                    td.td-style=val.invitees
+                    td.td-style=val.adminSlot ? val.adminSlot.fullname : '-'
+                    td.td-style=val.adminSlot ? val.adminSlot.username: '-'
+                    td.td-style=val.adminSlot ? val.adminSlot.date: '-'
+                    td.td-style=val.adminSlot ? val.adminSlot.day : '-'
+                    td.td-style=val.adminSlot ? val.adminSlot.timeStart : '-'
+                    td.td-style=val.adminSlot ? val.adminSlot.timeEnd : '-'
+                    td.td-style=val.isCompleted ? "Completed" : "Pending"
                     td.td-style
                         button(data-delete-meeting-id=val.meetingID) Delete
