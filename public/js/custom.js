@@ -29,32 +29,13 @@ function updateSlot(e) {
 		.post("/slot/update/" + slotId.value, data)
 		.then(res => {
 			alert(res.data.message);
-			window.location.href = "/home";
+			window.location.href = "/";
 		})
 		.catch(err => {
 			alert(err.response.data);
 		});
 }
 
-function addSlotFN(e) {
-	// adding slot data in array
-	e.preventDefault();
-	var dateobj = new Date(date.value);
-	var B = dateobj.toISOString();
-	var data = {
-		meetingID: meetingID.value,
-		day: day.value.replace(/ /g, "").toLowerCase(),
-		date: B,
-		timeStart: timeStart.value.replace(/ /g, ""),
-		timeEnd: timeEnd.value.replace(/ /g, "")
-	};
-	optionalSlot.push(data);
-	date.value = "";
-	day.value = "";
-	timeStart.value = "";
-	timeEnd.value = "";
-	alert("A Slot Has Been Added");
-}
 function checkBestSlot(e) {
 	// sending data to server to find best slot for meeting
 	e.preventDefault();
@@ -151,27 +132,13 @@ function displaySearchData(data) {
 	}
 }
 
-function acceptSlotFN(data) {
-	// sending data to server that user ready to accept the Meeting
-	axios
-		.post("/acceptmeeting", data)
-		.then(data => {
-			alert(data.data.message);
-			optionalSlot = [];
-			window.location.href = "/home";
-		})
-		.catch(err => {
-			alert(err);
-			optionalSlot = [];
-		});
-}
 document.addEventListener("DOMContentLoaded", function(event) {
 	// Your code to run since DOM is loaded and ready
 	document.querySelectorAll("[data-delete-meeting-id]").forEach(btn => {
 		btn.addEventListener("click", e => {
 			let meetingId = e.target.getAttribute("data-delete-meeting-id");
 			axios
-				.post("/api/meeting/delete", {
+				.post("/meeting/delete", {
 					meetingID: meetingId
 				})
 				.then(response => {

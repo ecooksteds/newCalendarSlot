@@ -1,14 +1,14 @@
 extends layout
 append links 
     li(style="float: right;")
-        a(href="/loggout") Loggout 
+        a(href="/user/logout") Logout 
 block content
     h2.h2-style Meeting Dashboard
         fieldset.back-color
             div.set-margin
-               a.button-style(href="/as-admin") As Admin
+               a.button-style(href="/meeting/show/as-admin") As Admin
             div.set-margin2
-               a.button-style(href="/as-invitee") As Invitee
+               a.button-style(href="/meeting/show/as-invitee") As Invitee
 
                
 

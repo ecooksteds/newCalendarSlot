@@ -1,10 +1,10 @@
 extends layout
 append links 
     li(style="float: right;")
-        a(href="/loggout") Loggout 
+        a(href="/user/logout") Logout 
 block content
     h2.h2-style Meeting Dashboard  
-    form(method="post" action='/createjoin')
+    form(method="post" action='/meeting/create')
         fieldset.back-color
             legend Meeting Information
             table.set-padding 

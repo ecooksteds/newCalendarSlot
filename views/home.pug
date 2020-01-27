@@ -12,15 +12,15 @@ mixin message(opp, name)
 
 append links 
     li(style="float: right;")
-        a(href="/loggout") Loggout 
+        a(href="/user/logout") Logout 
 
 block content
     .dashboard 
         .user 
             +message(opp, name)
             div.set-margin
-               a.button-style(href="/meetingdashboard") Create Meeting
+               a.button-style(href="/meeting/create") Create Meeting
             div.set-margin2
-               a.button-style(href="/joinmeeting") Join Meeting
+               a.button-style(href="/meeting/show/to-join") Join Meeting
             div.set-margin2
-               a.button-style(href="/meetingpage") Check Your Meetings
+               a.button-style(href="/meeting/show") Check Your Meetings

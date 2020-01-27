@@ -91,22 +91,6 @@ User.meetings = user => {
 		});
 	});
 };
-// deprecated
-User.addMeetingSlots = (meeting, user) => {
-	return new Promise((resolve, reject) => {
-		pool.query(
-			`select * from slot join users on slot.userID=users.id where slot.meetingID='${meeting.meetingID}'`
-		).then(mSlots => {
-			mSlots = mSlots.map(s => {
-				s.date = new Date(s.date).toLocaleDateString();
-				if (s.userID == user.id) meeting.adminSlot = s;
-				return s;
-			});
-			meeting.slots = mSlots;
-			resolve(meeting);
-		});
-	});
-};
 User.pendingSlots = user => {
 	return new Promise((resolve, reject) => {
 		pool.query(

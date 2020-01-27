@@ -1,7 +1,7 @@
 extends layout
 append links 
     li(style="float: right;")
-        a(href="/loggout") Loggout 
+        a(href="/user/logout") Logout 
 block content
     h2.h2-style Meeting Slot Page
     form#form-data-id(onsubmit="updateSlot(event)")
@@ -32,4 +32,4 @@ block content
                     td
                     td
                         input(type="submit" value="Submit")
-                        a.back(href="/home") Home
+                        a.back(href="/") Home
