@@ -23,13 +23,26 @@ block content
                 tr
                     th Time Start: 
                     td 
-                        input(type="text" required id="timeStart" name="day")
+                        input(type="text" required id="timeStart" name="day" placeholder="hh:mm p")
                 tr
                     th Time End: 
                     td 
-                        input(type="text" required id="timeEnd" name="day")                     
+                        input(type="text" required id="timeEnd" name="day" placeholder="hh:mm p")
                 tr 
                     td
                     td
                         input(type="submit" value="Submit")
                         a.back(href="/") Home
+    script.
+        document.querySelectorAll("#timeStart, #timeEnd").forEach((el) => {
+            el.addEventListener('focusout', (e) => {
+                let val = e.target.value.toUpperCase().replace(" ", "");
+                console.log(val);
+                if(/^[0-9]{1,2}:[0-9]{1,2}(\s+)?(AM|PM)$/.test(val)){
+                    el.value = val;
+                    return;
+                }
+                alert('time should be in [hh:mm p] format')
+                el.value = "";
+            })
+        })

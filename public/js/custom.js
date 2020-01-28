@@ -22,7 +22,7 @@ function updateSlot(e) {
 		date: new Date(date.value),
 		timeStart: timeStart.value.replace(/ /g, ""),
 		timeEnd: timeEnd.value.replace(/ /g, ""),
-		status: "COMPLETED"
+		status: "ACCEPTED"
 	};
 	// sending data to server
 	axios

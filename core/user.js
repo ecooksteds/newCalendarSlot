@@ -136,7 +136,7 @@ User.getSlotsStatus = (meeting, user) => {
 			.then(result => {
 				let status = "Completed";
 				result.forEach(slot => {
-					if (slot.status != "COMPLETED" && slot.status != "DECLINED")
+					if (slot.status != "ACCEPTED" && slot.status != "DECLINED")
 						status = "Pending";
 				});
 				meeting.slotsStatus = status;
