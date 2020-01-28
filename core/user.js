@@ -115,7 +115,7 @@ User.respondedSlots = user => {
 		)
 			.then(userSlots => {
 				userSlots = userSlots.map(s => {
-					if (s.userID == user.id) {
+					if (s.invitationfrom == user.fullname) {
 						s.isAdmin = true;
 					}
 					s.date = new Date(s.date).toLocaleDateString();

@@ -11,7 +11,7 @@ router.get("/decline/:slotId", (req, res) => {
 	let user = req.user;
 	let slotId = req.params.slotId;
 	Slot.decline(slotId, user).then(result => {
-		res.redirect("/joinmeeting");
+		res.redirect("/");
 	});
 });
 
