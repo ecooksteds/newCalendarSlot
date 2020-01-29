@@ -1,22 +1,23 @@
-var util = require('util');
-var mysql = require('mysql');
+var util = require("util");
+var mysql = require("mysql");
 /**
  * Connection to the database.
  *  */
 var pool = mysql.createPool({
-    host: 'us-cdbr-iron-east-05.cleardb.net',
-    user: 'b15bfd522a38aa', // use your mysql username.
-    password: 'd436c805', // user your mysql password.
-    database: 'heroku_66bd76f57e3f221'
+	host:
+		"mysql://b985dc3b3b241d:0d98a743@us-cdbr-iron-east-04.cleardb.net/heroku_fd85a10cd896b1c?reconnect=true",
+	user: "b985dc3b3b241d", // use your mysql username.
+	password: "0d98a743", // user your mysql password.
+	database: "heroku_fd85a10cd896b1c",
+	port: 5432
 });
 
 pool.getConnection((err, connection) => {
-    if(err) 
-        console.error("Something went wrong connecting to the database ...");
-    
-    if(connection)
-        connection.release();
-    return;
+	if (err)
+		console.error("Something went wrong connecting to the database ...");
+
+	if (connection) connection.release();
+	return;
 });
 
 pool.query = util.promisify(pool.query);
