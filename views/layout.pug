@@ -2,10 +2,17 @@ doctype html
 html(lang="en")
     head 
         title=title
-        include includes/styles 
-        script(src="/js/custom.js")
         base(href="/")
+        include includes/styles 
     body 
         .page-wrapper 
             include includes/header 
             block content
+        script(src="/libs/jquery-3.4.1.min.js")
+        script(src="/libs/axios.min.js")
+        script(src="/libs/datepicker/datepicker.min.js")
+        script.
+            $('.date-picker').datepicker({
+                autoHide: true
+            });
+        script(src="/js/custom.js")
