@@ -4,6 +4,9 @@ var bcrypt = require("bcrypt");
 
 function Slot() {}
 
+Slot.dateFormat = "YYYY-MM-DD";
+Slot.dateTimeFormat = Slot.dateFormat + " hh:mm A";
+
 Slot.prototype = {
 	// to save slot data in database
 	create: function(body, callback) {
@@ -26,44 +29,68 @@ Slot.best = (meetingID, body) => {
 				let userSlotsWithPerfection = body.map(userSlot => {
 					userSlot.perfection = 0;
 					let userTimeStart = moment(
-						moment(userSlot.date).format("YYYY-MM-DD") +
+						moment(userSlot.date).format(Slot.dateFormat) +
 							" " +
 							userSlot.timeStart,
-						"YYYY-MM-DD hh:mm A"
+						Slot.dateTimeFormat
 					);
 					let userTimeEnd = moment(
-						moment(userSlot.date).format("YYYY-MM-DD") +
+						moment(userSlot.date).format(Slot.dateFormat) +
 							" " +
 							userSlot.timeEnd,
-						"YYYY-MM-DD hh:mm A"
+						Slot.dateTimeFormat
 					);
 
 					dbSlots.forEach(dbSlot => {
 						let dbTimeStart = moment(
-							moment(dbSlot.date).format("YYYY-MM-DD") +
+							moment(dbSlot.date).format(Slot.dateFormat) +
 								" " +
 								dbSlot.timeStart,
-							"YYYY-MM-DD hh:mm A"
+							Slot.dateTimeFormat
 						);
 						let dbTimeEnd = moment(
-							moment(dbSlot.date).format("YYYY-MM-DD") +
+							moment(dbSlot.date).format(Slot.dateFormat) +
 								" " +
 								dbSlot.timeEnd,
-							"YYYY-MM-DD hh:mm A"
+							Slot.dateTimeFormat
 						);
 						// adding perfection
 						if (
-							userTimeStart.isBetween(dbTimeStart, dbTimeEnd) &&
-							userTimeEnd.isBetween(dbTimeStart, dbTimeEnd)
+							userTimeStart.isBetween(
+								dbTimeStart,
+								dbTimeEnd,
+								null,
+								"[]"
+							) &&
+							userTimeEnd.isBetween(
+								dbTimeStart,
+								dbTimeEnd,
+								null,
+								"[]"
+							)
 						) {
 							userSlot.perfection += 3;
 							return;
 						}
-						if (userTimeStart.isBetween(dbTimeStart, dbTimeEnd)) {
+						if (
+							userTimeStart.isBetween(
+								dbTimeStart,
+								dbTimeEnd,
+								null,
+								"[]"
+							)
+						) {
 							userSlot.perfection += 2;
 							return;
 						}
-						if (userTimeEnd.isBetween(dbTimeStart, dbTimeEnd)) {
+						if (
+							userTimeEnd.isBetween(
+								dbTimeStart,
+								dbTimeEnd,
+								null,
+								"[]"
+							)
+						) {
 							userSlot.perfection += 1;
 							return;
 						}
