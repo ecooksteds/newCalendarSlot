@@ -15,13 +15,7 @@ class Meeting {
 						.then(result => {
 							let inviteesUsers = result;
 							// adding admin slot
-							let inviteesSlots = [
-								Slot.create({
-									meetingID: meetingInsertId,
-									userID: user.id,
-									status: "PENDING"
-								})
-							];
+							let inviteesSlots = [];
 							inviteesUsers.forEach(user => {
 								if (user) {
 									inviteesSlots.push(
@@ -36,10 +30,7 @@ class Meeting {
 
 							Promise.all(inviteesSlots)
 								.then(result => {
-									res({
-										meetingInsertId,
-										adminSlotId: result[0].insertId
-									});
+									res(meetingInsertId);
 								})
 								.catch(err => {
 									rej(err);

@@ -13,6 +13,7 @@ User.prototype = {
 		}
 
 		let sql = `SELECT * FROM users WHERE ${field} = ?`;
+		console.log(sql);
 
 		pool.query(sql, user, function(err, result) {
 			if (err) throw err;

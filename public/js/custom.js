@@ -14,10 +14,11 @@ function onChageDate(e) {
 	document.getElementById("day").value = weekday[dt.getDay()];
 }
 
-function adminUpdateSlot(e) {
+function adminCreateSlot(e) {
 	e.preventDefault();
 	// filtering data here
 	var data = {
+		meetingID: meetingID.value,
 		day: day.value.replace(/ /g, ""),
 		date: new Date(date.value),
 		timeStart: timeStart.value.replace(/ /g, ""),
@@ -26,10 +27,13 @@ function adminUpdateSlot(e) {
 	};
 	// sending data to server
 	axios
-		.post("/slot/update/" + slotId.value, data)
+		.post("/slot/create/" + data.meetingID, data)
 		.then(res => {
 			alert(res.data.message);
-			window.location.href = "/";
+			date.value = "";
+			day.value = "";
+			timeStart.value = "";
+			timeEnd.value = "";
 		})
 		.catch(err => {
 			alert(err.response.data);

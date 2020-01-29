@@ -1,0 +1,21 @@
+extends layout
+append links
+    li
+        a(href="/user/logout") Logout 
+block content
+    h2.h2-style Meeting Slot Page
+    form#form-data-id(onsubmit="adminCreateSlot(event)")
+        fieldset.back-color
+            legend
+            table.set-padding 
+                tr 
+                    th Meeting Id: 
+                    td
+                        input(type="text" required value=meetingID readonly id="meetingID" name="meetingID")
+                include includes/slot-form-commons
+                tr
+                    td
+                    td
+                        input(type="submit" value="Submit")
+                        a.back(href="/") Home
+    script(src="/js/slot-form.js")

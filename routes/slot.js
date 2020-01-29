@@ -7,6 +7,35 @@ const User = require("./../core/user");
 const logged = require("./../middleware/logged");
 router.use(logged);
 
+router.get("/create/:meetingID", (req, res) => {
+	let user = req.user;
+	let meetingID = req.params.meetingID;
+	res.render("slot-create", {
+		meetingID
+	});
+});
+router.post("/create/:meetingID", (req, res) => {
+	let user = req.user;
+
+	// fix date if any
+	req.body.date = req.body.date
+		? moment(req.body.date).format("YYYY-MM-DD")
+		: req.body.date;
+
+	// adding userID
+	req.body.userID = req.user.id;
+
+	Slot.create(req.body, user)
+		.then(() => {
+			res.send({
+				message: "the Slot has been saved"
+			});
+		})
+		.catch(err => {
+			res.status(400).send(`something went wrong; code:${err.code}`);
+		});
+});
+
 router.post("/best/:meetingID", (req, res) => {
 	let user = req.user;
 	let meetingID = req.params.meetingID;
@@ -55,20 +84,6 @@ router.post("/update/:slotId", (req, res) => {
 		});
 });
 
-router.get("/update/:slotId/for-admin", (req, res) => {
-	let user = req.user;
-	let slotId = req.params.slotId;
-	Slot.getThisUserSlot(slotId, user).then(slot => {
-		if (slot.status == "ACCEPTED") {
-			res.redirect("/");
-			return;
-		}
-		res.render("setmeeting", {
-			slot
-		});
-	});
-});
-
 router.get("/update/:slotId/for-invitee", (req, res) => {
 	let user = req.user;
 	let slotId = req.params.slotId;
@@ -77,9 +92,8 @@ router.get("/update/:slotId/for-invitee", (req, res) => {
 			res.redirect("/");
 			return;
 		}
-		res.render("setmeeting", {
-			slot,
-			forInvitee: true
+		res.render("update-slot-invitee", {
+			slot
 		});
 	});
 });

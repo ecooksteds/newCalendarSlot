@@ -22,12 +22,12 @@ router.post("/create", (req, res) => {
 		invitationfrom: user.fullname
 	};
 	Meeting.create(userInput, user)
-		.then(({ adminSlotId }) => {
-			res.redirect("/slot/update/" + adminSlotId + "/for-admin");
+		.then(meetingInsertId => {
+			res.redirect("/slot/create/" + meetingInsertId);
 		})
 		.catch(err => {
 			console.log(err);
-			res.send("somthing went wrong");
+			res.send("something went wrong");
 		});
 });
 
