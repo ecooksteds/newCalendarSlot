@@ -43,7 +43,7 @@ router.post("/best/:meetingID", (req, res) => {
 		.then(slots => {
 			// sorting it
 			slots = slots.filter(s => s.perfection != 0);
-			slots.sort((a, b) => b - a);
+			slots.sort((a, b) => b.perfection - a.perfection);
 			res.send(slots);
 		})
 		.catch(console.log);
