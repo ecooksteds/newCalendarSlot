@@ -43,7 +43,7 @@ function adminCreateSlot(e) {
 var optionalSlots = [];
 var currentMeetingID;
 var currentSlotId;
-function inviteeUpdateSlot(e) {
+function updateSlot(e) {
 	e.preventDefault();
 	currentMeetingID = meetingID.value;
 	currentSlotId = slotId.value;

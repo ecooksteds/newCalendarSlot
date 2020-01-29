@@ -14,7 +14,6 @@ class Meeting {
 					)
 						.then(result => {
 							let inviteesUsers = result;
-							// adding admin slot
 							let inviteesSlots = [];
 							inviteesUsers.forEach(user => {
 								if (user) {

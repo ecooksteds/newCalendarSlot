@@ -84,7 +84,7 @@ router.post("/update/:slotId", (req, res) => {
 		});
 });
 
-router.get("/update/:slotId/for-invitee", (req, res) => {
+router.get("/update/:slotId", (req, res) => {
 	let user = req.user;
 	let slotId = req.params.slotId;
 	Slot.getThisUserSlot(slotId, user).then(slot => {
@@ -92,7 +92,7 @@ router.get("/update/:slotId/for-invitee", (req, res) => {
 			res.redirect("/");
 			return;
 		}
-		res.render("update-slot-invitee", {
+		res.render("slot-update", {
 			slot
 		});
 	});
