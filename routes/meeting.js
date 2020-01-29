@@ -23,7 +23,7 @@ router.post("/create", (req, res) => {
 	};
 	Meeting.create(userInput, user)
 		.then(({ adminSlotId }) => {
-			res.redirect("/slot/update/" + adminSlotId);
+			res.redirect("/slot/update/" + adminSlotId + "/for-admin");
 		})
 		.catch(err => {
 			console.log(err);

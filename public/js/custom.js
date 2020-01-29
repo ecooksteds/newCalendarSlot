@@ -13,12 +13,12 @@ function onChageDate(e) {
 	var dt = new Date(e.target.value);
 	document.getElementById("day").value = weekday[dt.getDay()];
 }
-var optionalSlot = [];
-function updateSlot(e) {
+
+function adminUpdateSlot(e) {
 	e.preventDefault();
 	// filtering data here
 	var data = {
-		day: day.value.replace(/ /g, "").toLowerCase(),
+		day: day.value.replace(/ /g, ""),
 		date: new Date(date.value),
 		timeStart: timeStart.value.replace(/ /g, ""),
 		timeEnd: timeEnd.value.replace(/ /g, ""),
@@ -36,24 +36,44 @@ function updateSlot(e) {
 		});
 }
 
+var optionalSlots = [];
+var currentMeetingID;
+var currentSlotId;
+function inviteeUpdateSlot(e) {
+	e.preventDefault();
+	currentMeetingID = meetingID.value;
+	currentSlotId = slotId.value;
+	optionalSlots.push({
+		day: day.value.replace(/ /g, ""),
+		date: new Date(date.value),
+		timeStart: timeStart.value.replace(/ /g, ""),
+		timeEnd: timeEnd.value.replace(/ /g, "")
+	});
+	date.value = "";
+	day.value = "";
+	timeStart.value = "";
+	timeEnd.value = "";
+	alert("a Slot has been added");
+}
+
 function checkBestSlot(e) {
 	// sending data to server to find best slot for meeting
 	e.preventDefault();
-	if (optionalSlot.length > 0) {
+	if (optionalSlots.length > 0) {
 		axios
-			.post("/checkslot", optionalSlot)
+			.post("/slot/best/" + currentMeetingID, optionalSlots)
 			.then(data => {
 				if (data.data.length > 0) {
 					displaySearchData(data.data);
 				} else {
-					alert("No Suitable Slot for Meeting");
+					alert("no suitable Slot for Meeting");
 				}
 			})
 			.catch(err => {
 				alert(err);
 			});
 	} else {
-		alert("Please Add Slot(s) to Find Best Slot Your Meeting");
+		alert("please add Slot(s) to find best slot of your meeting");
 	}
 }
 function displaySearchData(data) {
@@ -103,7 +123,17 @@ function displaySearchData(data) {
 			btn.innerText = "Accept";
 			btn.onclick = event => {
 				event.preventDefault();
-				acceptSlotFN(record);
+				record.status = "ACCEPTED";
+				record.perfection = undefined;
+				axios
+					.post("/slot/update/" + currentSlotId, record)
+					.then(res => {
+						alert(res.data.message);
+						window.location.href = "/";
+					})
+					.catch(err => {
+						alert(err.response.data);
+					});
 			};
 			td1.innerText = new Date(record.date).toLocaleDateString();
 			td2.innerText = record.day;

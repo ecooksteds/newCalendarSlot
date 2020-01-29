@@ -1,6 +1,6 @@
 extends layout
 append links 
-    li(style="float: right;")
+    li
         a(href="/user/logout") Logout 
 block content
     h2.h2-style Join Meeting Dashboard
@@ -16,7 +16,7 @@ block content
                     tr 
                         th.th-style=val.invitationfrom
                         td.td-style 
-                            a.button-style(href=`/slot/update/${val.slotId}`) Join
+                            a.button-style(href=`/slot/update/${val.slotId}/for-invitee`) Join
                             span &nbsp;
                             a.button-style(href=`/slot/decline/${val.slotId}`) Decline
                
