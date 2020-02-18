@@ -95,6 +95,7 @@ Slot.best = (meetingID, body) => {
 							return;
 						}
 					});
+					
 					return userSlot;
 				});
 				res(userSlotsWithPerfection);

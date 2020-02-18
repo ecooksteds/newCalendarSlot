@@ -3,6 +3,7 @@ var router = express.Router();
 var session = require("express-session");
 var passport = require("passport");
 var LocalStrategy = require("passport-local").Strategy;
+const Polling = ("../core/polling");
 
 // create an object from the class User in the file core/user.js
 const User = require("./../core/user");
@@ -63,6 +64,8 @@ router.get("/", (req, res) => {
 // Get home page
 router.get("/home", logged, (req, res) => {
 	let user = req.user;
+	var testPolling = new Polling()
+	testPolling.populateUserList();
 	res.render("home", { opp: true, name: user.fullname });
 });
 
