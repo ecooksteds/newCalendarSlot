@@ -22,7 +22,7 @@
 		"mysqli": "^3.0.11",
 		"passport": "^0.4.0",
 		"passport-local": "^1.0.0",
-		"pug": "^2.0.4",
+		"pug": "^3.0.1",
 		"sequence": "^3.0.0",
 		"util.promisify": "^1.0.0"
 	},
